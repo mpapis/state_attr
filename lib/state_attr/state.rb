@@ -2,15 +2,15 @@ module StateAttr
   module ClassMethods
     class State
 
-      def initialize(parent, field, machine, logger, options, callback)
+      def initialize(parent, field, machine, logger, options)
         @parent = parent
         @field = field
         #convert different types of input to array of symbols
         @machine = {}
         machine.each { |key, value| @machine[key] = value.nil? ? [nil] : Array(value).map(&:to_sym) }
         @logger = logger
-        @callback = callback
         @options = options
+        @callback = "on_#{@field}_change".to_sym
       end
 
       def to_s
@@ -57,13 +57,13 @@ module StateAttr
       end
 
       def write_state(state)
-        if @callback
-          unless @callback.call(read_state, state)
+        if @parent.methods.include? @callback.to_s
+          unless @parent.send @callback, read_state, state
             @logger.warn "#{@parent.class.name}: change #{@field} from '#{read_state}' to '#{state}' was rejected by callback"
             return false
           end
         end
-        @logger.debug "#{self.class.name}: changing state from '#{read_state}' to '#{value}'"
+        @logger.debug "#{@parent.class.name}: changing #{@field} from '#{read_state}' to '#{state}'"
         @parent.write_attribute(@field, state.try(:to_s))
         true
       end
