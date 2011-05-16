@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "state_attr"
-  s.version = "0.1.3"
+  s.version = "0.1.4"
   s.date = "2011-05-16"
   s.summary = "Minimalistic state machine approach allowing multiple state attributes at the same time."
   s.email = "mpapis@gmail.com"
@@ -18,5 +18,5 @@ Gem::Specification.new do |s|
               "test/test_helper.rb",
               "test/unit/state_attr_test.rb",
             ]
-  s.add_dependency("rails",">=2.3.0")
+  #s.add_dependency("rails",["~>2","~>3"])
 end
