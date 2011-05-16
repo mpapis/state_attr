@@ -6,7 +6,8 @@ module StateAttr
         @parent = parent
         @field = field
         #convert different types of input to array of symbols
-        @machine = Hash[machine.map { |key, value| [key, value.nil? ? [nil] : Array(value).map(&:to_sym)] }]
+        @machine = {}
+        machine.each { |key, value| @machine[key] = value.nil? ? [nil] : Array(value).map(&:to_sym) }
         @logger = logger
         @callback = callback
         @options = options
