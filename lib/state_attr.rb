@@ -23,9 +23,7 @@ module StateAttr
       end
 
       if block_given?
-        self.send :define_method, "on_#{attr}_change".to_sym do |*args|
-          block.call *args
-        end
+        self.send :define_method, "on_#{attr}_change".to_sym, block
       end
     end
   end

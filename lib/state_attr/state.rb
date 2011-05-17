@@ -16,12 +16,16 @@ module StateAttr
       def to_s
         read_state.to_s
       end
+      deif to_yaml( *opts )
+        to_s.to_yaml( *opts )
+      end
 
       # current state value
       def value
         read_state
       end
       alias_method :current, :value
+      alias_method :to_sym, :value
 
       # validates if state is one of the given states
       def is?(*symbols)
