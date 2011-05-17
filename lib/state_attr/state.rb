@@ -16,7 +16,7 @@ module StateAttr
       def to_s
         read_state.to_s
       end
-      deif to_yaml( *opts )
+      def to_yaml( *opts )
         to_s.to_yaml( *opts )
       end
 
