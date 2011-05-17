@@ -40,6 +40,7 @@ module StateAttr
 
       # if allowed switch to given state, if not raise exception
       def switch(state)
+        state = state.try(:to_sym)
         if (allowed?(state))
           write_state(state)
         elsif @options[:switch_not_allowed] == :silent
