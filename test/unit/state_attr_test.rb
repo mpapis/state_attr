@@ -17,6 +17,18 @@ class FakeModel < ActiveRecord::Base
     nil => :g,
     :g => :h,
   }
+
+  state_attr :group_state, {
+    nil => :a,
+    :a => :all,
+  }, :groups => {
+    :all => %w( a b c d)
+  }
+  
+#  state_attr :state_initial, {
+#    :a => [:b, :c],
+#    :b => :c,
+#  }, :initial => :a
 end
 
 class StateAttrTest < Test::Unit::TestCase
@@ -76,4 +88,16 @@ class StateAttrTest < Test::Unit::TestCase
     assert model.state2.allowed?(:d)
     assert model.state2.allowed?(:e)
   end
+  def test_group
+    model = FakeModel.new
+    assert_equal [:a], model.group_state.allowed
+    model.group_state.switch(:a)
+    assert_equal [:a,:b,:c,:d], model.group_state.allowed
+  end
+#  def test_state_initial
+#    model = FakeModel.new
+#    assert_equal :a, model.state_initial.value
+#    model.state_initial.switch(:b)
+#    assert_equal :b, model.state_initial.value
+#  end
 end

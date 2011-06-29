@@ -15,6 +15,15 @@ StateAttr is an minimalistic state machine approach for rails allowing multiple 
       :third => nil,
     }
 
+    state_attr :special_state, {
+      nil => :first,
+      :first => :special,
+      :second => :special,
+      :third => nil,
+    }, :groups => {
+      :special => %w(second third)
+    }
+
     state_attr :invitation_state, {
       :invited => %w{approved rejected},
       :approved => :rejected,
@@ -31,6 +40,7 @@ StateAttr is an minimalistic state machine approach for rails allowing multiple 
       else
         send_mail "You just made to #{new}."
       end
+      true #if false then state will be not set
     end
 
 # Options
@@ -38,3 +48,5 @@ StateAttr is an minimalistic state machine approach for rails allowing multiple 
  - :initial => :value - initial `value` (not yet implemented)
  - :setter => :exception - raise exception when calling `state=`
  - :switch_not_allowed => :silent - do not raise exception when switch is not allowed
+ - :groups => hash - an hash of mappings for allowed values, aimed as shortcut for repeated states
+ 

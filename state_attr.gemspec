@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "state_attr"
-  s.version = "0.1.12"
-  s.date = "2011-05-16"
+  s.version = "0.1.13"
+  s.date = "2011-06-29"
   s.summary = "Minimalistic state machine approach allowing multiple state attributes at the same time."
   s.email = "mpapis@gmail.com"
   s.homepage = "http://github.com/mpapis/state_attr/tree/master"

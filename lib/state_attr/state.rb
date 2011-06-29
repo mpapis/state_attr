@@ -5,11 +5,20 @@ module StateAttr
       def initialize(parent, field, machine, logger, options)
         @parent = parent
         @field = field
-        #convert different types of input to array of symbols
-        @machine = {}
-        machine.each { |key, value| @machine[key] = value.nil? ? [nil] : Array(value).map(&:to_sym) }
-        @logger = logger
         @options = options
+        groups = @options[:groups] || {}
+        @machine = {}
+        #convert different types of input to array of symbols
+        machine.each { |key, value|
+          @machine[key] = if value.nil?
+            [nil]
+          elsif groups.keys.include? value
+            Array(groups[value]).map(&:to_sym)
+          else
+            Array(value).map(&:to_sym)
+          end
+        }
+        @logger = logger
         @callback = "on_#{@field}_change".to_sym
       end
 
@@ -34,7 +43,8 @@ module StateAttr
 
       # array of allowed stated
       def allowed
-        @machine[read_state] || []
+        result = @machine[read_state] || []
+        result
       end
 
       #validate if can switch to given state
